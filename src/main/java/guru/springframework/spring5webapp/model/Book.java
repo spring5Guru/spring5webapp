@@ -1,5 +1,7 @@
 package guru.springframework.spring5webapp.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.Set;
 /**
  * Created by jt on 5/16/17.
  */
+@Data
 @Entity
 public class Book {
     @Id
@@ -14,17 +17,24 @@ public class Book {
     private Long id;
     private String title;
     private String isbn;
-    private String publisher;
+
+    @OneToOne
+    private Publisher publisher;
 
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
 
-    public Book() {
+    public Book(String title, String isbn) {
+        this.title = title;
+        this.isbn = isbn;
     }
 
-    public Book(String title, String isbn, String publisher) {
+    /* public Book() {
+    }*/
+
+    /*public Book(String title, String isbn, String publisher) {
         this.title = title;
         this.isbn = isbn;
         this.publisher = publisher;
@@ -35,8 +45,8 @@ public class Book {
         this.isbn = isbn;
         this.publisher = publisher;
         this.authors = authors;
-    }
-
+    }*/
+/*
     public Long getId() {
         return id;
     }
@@ -101,5 +111,5 @@ public class Book {
                 ", publisher='" + publisher + '\'' +
                 ", authors=" + authors +
                 '}';
-    }
+    }*/
 }
